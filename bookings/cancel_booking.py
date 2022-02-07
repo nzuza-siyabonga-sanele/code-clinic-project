@@ -21,9 +21,13 @@ def cancel_booking():
         print("ENTER STUDENT'S E-MAIL :", end=" ")
         try:
             STUDENT_EMAIL = (input().upper())
+            if "QUIT" in STUDENT_EMAIL or "Q" in STUDENT_EMAIL:
+                print("THANK YOU ! VISIT AGAIN.")
+                run = False
+                return run
             LOC1 = bookings.student_booking.STUDENT_EMAIL.index(STUDENT_EMAIL)
         except ValueError:
-            print("\nCANCEL BOOKING WAS UNSUCCESSFULLY : \n")
+            print("\nCANCEL BOOKING WAS UNSUCCESSFUL : \n")
             run = True
             return run
         
@@ -31,9 +35,13 @@ def cancel_booking():
         print("ENTER 4 DIGTE CODE:", end=" ")
         try:
             OLD_MOBILE = input()
+            if "QUIT" in OLD_MOBILE or "Q" in OLD_MOBILE:
+                print("THANK YOU ! VISIT AGAIN.")
+                run = False
+                return run
             LOC = bookings.student_booking.STUDENT_PIN.index(OLD_MOBILE)
         except ValueError:
-            print("\nCANCEL BOOKING WAS UNSUCCESSFULLY : \n")
+            print("\nCANCEL BOOKING WAS UNSUCCESSFUL : \n")
             run = True
             return run
             

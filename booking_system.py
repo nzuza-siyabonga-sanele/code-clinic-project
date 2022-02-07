@@ -1,44 +1,54 @@
 import sys
 
+import bookings.student_booking
+import bookings.update_information
+import bookings.cancel_booking
+import bookings.volunteer_booking
 
-valid_commands = ['h', 'help', 'q','quit', 'v','volunteer', 'b', 'book', 'c','cancel', 'u', 'update']
+valid_commands = ['h', 'help', 'q','quit', 'v','volunteer', 'b', 'book', 'c','cancel', 'u', 'update', 'vc', 'view']
 
 
 #TODO list all available commands
 def help_commands():
     commands ="""These are all valid comands:
-h or help - outputs a list of available commnads\n
-q or quit - quits and exits booking system\n
-v or volunteer - books a volunteer slot in the code clinics calendar\n
-b or book - books a available slot for student in the code clinics calendar\n
-c or cancel - cancels a volunteer slot or student booking"""
+h or help - outputs a list of available commnads
+q or quit - quits and exits booking system
+v or volunteer - books a volunteer slot in the code clinics calendar
+b or book - books a available slot for student in the code clinics calendar
+c or cancel - cancels a volunteer slot or student booking
+"""
 
     return commands
+
+
+
 
 
 #TODO get commands from user here
 def get_command(OPTION):
     
-    import bookings.student_booking
-    import bookings.update_information
-    import bookings.cancel_booking
     
     
-    if OPTION.lower() == "book" or "b":
+    if OPTION.lower() == "book" or OPTION.lower() == "b":
         return bookings.student_booking.book_a_slot()
         
-    elif OPTION.lower() == "cancel" :
+    elif OPTION.lower() == "cancel" or OPTION.lower() == "c" :
         return bookings.cancel_booking.cancel_booking()
+    
+    elif OPTION.lower() == "volunteer" or OPTION.lower() == "v" :
+        return bookings.volunteer_booking.book_a_slot()
 
-    elif OPTION.lower() == ("update" or "u") : 
+    elif OPTION.lower() == "update" or OPTION.lower() == "u": 
         return bookings.update_information.update_bookings_volunteer()
             
-    elif OPTION.lower() == "view" :
+    elif OPTION.lower() == "view" or OPTION.lower() == "vc":
         print("work in progress")
-    elif OPTION.lower() == "exit"  :
+        
+    elif OPTION.lower() == 'quit' or OPTION.lower() == "q" :
         print("THANK YOU ! VISIT AGAIN.")
         run = False
-    elif OPTION.lower() == ("help" or 'h') :
+        return run
+    elif OPTION.lower() == "help" or OPTION.lower() == "h" :
         outprint = help_commands()
         print(outprint)
         run = True
@@ -67,31 +77,24 @@ You can Enter Help to display all the commands needed for the code clinic.
     
     if len(sys.argv)>1:
         if len(sys.argv) > 2:
-            if sys.argv[1].lower() == ("book" or "b") and sys.argv[2].lower() == ("cancel" or "c"):
+            if sys.argv[1].lower() == "book" or "b" and sys.argv[2].lower() == "cancel" or "c":
                 OPTION = "cancel"
                 run = get_command(OPTION)
-            elif sys.argv[1] == ("book" or "b") and sys.argv[2].lower() == ("update" or "u"):
+            elif sys.argv[1].lower() == "book" or "b" and sys.argv[2].lower() == "update" or "u":
                 OPTION = "update"
                 run = get_command(OPTION)
-        elif sys.argv[1] == ("book" or "b"):
+        elif sys.argv[1].lower() == "book" or "b":
             OPTION = "book"
             run = get_command(OPTION)
             
-    # MESSAGE = output_one()
-    # print(MESSAGE)
     else:
         OPTION = (input("ENTER YOUR OPTION : "))
-        print("\n")
         print(end="\n")
         run = get_command(OPTION)
-        print(run)
     
     while run:
         
-        # MESSAGE = output_one()
-        # print(MESSAGE)
-        OPTIONS = (input("ENTER YOUR OPTION : "))
-        print("\n")
+        OPTION = (input("ENTER YOUR OPTION : ")).lower()
         print(end="\n")
         run = get_command(OPTION)
         print(run)

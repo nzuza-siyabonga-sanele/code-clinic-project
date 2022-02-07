@@ -18,6 +18,10 @@ def update_bookings_volunteer():
         print("LIKE 'USERNAME, ROLL NUMBER, AGE, MOBILE NUMBER, ADDRESS, EMAIL, CLASS.")
         print("ENTER HERE :", end=" ")
         ATTRIBUTE = input().upper()
+        if "QUIT" in ATTRIBUTE or "Q" in ATTRIBUTE:
+                print("THANK YOU ! VISIT AGAIN.")
+                run = False
+                return run
 
         if ATTRIBUTE == 'NAME':
             print("ENTER 'OLD NAME' :", end=" ")
