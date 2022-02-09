@@ -53,4 +53,3 @@ def get_user_calendar():
         start=event['start'].get('dateTime',event['start'].get('date'))
         calendars.append((start,event['summary']))
     return calendars
-
