@@ -1,7 +1,10 @@
 from __future__ import print_function
-import json
-import datetime
+
 import os.path
+import pickle
+from pathlib import Path
+import re
+from urllib import response
 
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
@@ -10,11 +13,11 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 # If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar,readonly',
+'https://www.googleapis.com/auth/calendar']
 
-all_events = []
 
-def main():
+def get_calendar_service():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -37,37 +40,10 @@ def main():
             token.write(creds.to_json())
 
     try:
-        service = build('calendar', 'v3', credentials=creds)
+        return build('calendar', 'v3', credentials=creds)
 
-        # Call the Calendar API
-        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
-        print('Getting the upcoming 7 events')
-        events_result = service.events().list(calendarId='primary', timeMin=now,
-                                              maxResults=7, singleEvents=True,
-                                              orderBy='startTime').execute()
-        events = events_result.get('items', [])
-
-        if not events:
-            print('No upcoming events found.')
-            return
-
-        # Prints the start and name of the next 10 events
-        for event in events:
-            start = event['start'].get('dateTime', event['start'].get('date'))
-            # print(start, event['summary'])
-
-            all_events.append({
-                     'Time': start,
-                     'destription': event['summary'] })
-           
-        with open('personal.json', 'w') as json_file:
-            json.dump(all_events, json_file)
 
     except HttpError as error:
         print('An error occurred: %s' % error)
-
-   
-if __name__ == '__main__':
-    main()
 
 
